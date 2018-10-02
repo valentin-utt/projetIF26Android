@@ -10,15 +10,14 @@
         android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Map"
         android:layout_below="@id/signInButton"
         android:layout_centerInParent="true"
-        />
+        android:text="@string/map_button" />
 
     <Button
         android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Log in or register" />
+        android:text="@string/login_button" />
 </RelativeLayout>
