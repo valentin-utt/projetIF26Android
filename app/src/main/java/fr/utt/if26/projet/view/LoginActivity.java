@@ -1,4 +1,4 @@
-package fr.utt.if26.projet;
+package fr.utt.if26.projet.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.utt.if26.projet.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

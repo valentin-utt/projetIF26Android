@@ -1,4 +1,4 @@
-package fr.utt.if26.projet;
+package fr.utt.if26.projet.view;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import fr.utt.if26.projet.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

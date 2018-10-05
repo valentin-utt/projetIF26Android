@@ -1,10 +1,12 @@
-package fr.utt.if26.projet;
+package fr.utt.if26.projet.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import fr.utt.if26.projet.R;
 
 public class MainActivity extends AppCompatActivity {
 

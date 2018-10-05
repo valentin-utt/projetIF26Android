@@ -15,4 +15,6 @@
         completions."
     </string>
     <string name="title_activity_maps">Map</string>
+    <string name="map_button">map</string>
+    <string name="login_button">Sign in or register</string>
 </resources>
