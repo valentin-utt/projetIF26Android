@@ -19,4 +19,5 @@
     <string name="login_button">Sign in or register</string>
     <string name="see_list">List view</string>
     <string name="filters">Filters</string>
+    <string name="title_activity_basic">BasicActivity</string>
 </resources>

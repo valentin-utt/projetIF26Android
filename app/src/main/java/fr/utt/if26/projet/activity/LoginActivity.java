@@ -1,8 +1,9 @@
-package fr.utt.if26.projet.view;
+package fr.utt.if26.projet.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.*;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.utt.if26.projet.R;
+import fr.utt.if26.projet.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -41,6 +43,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+
+    public static final String EXTRA_REPLY = "com.example.android.userlistsql.REPLY";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -332,6 +337,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
+            Intent replyIntent = new Intent();
+            Bundle bundle = new Bundle();
+
+            if (TextUtils.isEmpty(mEmailView.getText())) {
+                setResult(RESULT_CANCELED, replyIntent);
+            } else {
+                String userEmail = mEmailView.getText().toString();
+                String userPassword = mPasswordView.getText().toString();
+                String userName = "Marc Lemercier";
+
+
+                User user = new User(userEmail,userPassword,userName);
+
+                bundle.putSerializable("USER_BUNDLE", user);
+                replyIntent.putExtra(EXTRA_REPLY, user);
+                setResult(RESULT_OK, replyIntent);
+            }
+
+
+
+
             return true;
         }
 
