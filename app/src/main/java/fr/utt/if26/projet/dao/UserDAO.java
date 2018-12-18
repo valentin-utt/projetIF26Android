@@ -20,4 +20,7 @@ public interface  UserDAO {
 
     @Query("SELECT * from user_table ORDER BY name ASC")
     LiveData<List<User>> getAllUsers();
+
+    @Query("SELECT * from user_table WHERE id=:myId")
+    User findUserById(int myId);
 }

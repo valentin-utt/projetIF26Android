@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chasse au trésor</string>
+    <string name="title_activity_login">Se connecter</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe (optionel)</string>
+    <string name="action_sign_in">Se connecter ou s\'inscrire</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="error_invalid_email">Cet email est invalide</string>
+    <string name="error_invalid_password">Ce mot de passe est trop court</string>
+    <string name="error_incorrect_password">ce mot de passe est incorrect</string>
+    <string name="error_field_required">Ce champ est requis</string>
+    <string name="permission_rationale">L\'acces au contacts est requi pour l\'auto-completion du champ email.</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="map_button">Carte</string>
+    <string name="login_button">Se connecter ou s\'inscrire</string>
+    <string name="add_cache">Ajouter une cache</string>
+    <string name="terrain">Terrain</string>
+    <string name="terrain_concrete">Dur</string>
+    <string name="terrain_dirt">Terre</string>
+    <string name="terrain_sand">Sable</string>
+    <string name="difficulty">Difficulté</string>
+    <string name="size">Taille</string>
+    <string name="type">Type</string>
+    <string name="type_box">Boite</string>
+    <string name="type_case">Valise</string>
+    <string name="type_treasure">Trésor</string>
+    <string name="cache_found">"Cache Trouvé ! "</string>
+    <string name="owner">Propriétaire</string>
+    <string name="hint">Indice</string>
+    <string name="description">Description</string>
+    <string name="easy">Facile</string>
+    <string name="medium">Moyen</string>
+    <string name="hard">Difficile</string>
+    <string name="filters">Filtres</string>
+    <string name="ok">ok</string>
+</resources>

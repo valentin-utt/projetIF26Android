@@ -17,7 +17,36 @@
     <string name="title_activity_maps">Map</string>
     <string name="map_button">map</string>
     <string name="login_button">Sign in or register</string>
-    <string name="see_list">List view</string>
+    <string name="add_cache">Add cache</string>
+
+    <string name="terrain">Terrain</string>
+    <string name="terrain_concrete">Concrete</string>
+    <string name="terrain_dirt">Dirt</string>
+    <string name="terrain_sand">Sand</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="size">Size</string>
+    <string name="type">Type</string>
+    <string name="type_box">Box</string>
+    <string name="type_case">Case</string>
+    <string name="type_treasure">Treasure</string>
+    <string name="cache_found">Cache found</string>
+    <string name="owner">Owner</string>
+
+
+    <string name="hint">Hint</string>
+    <string name="description">Description</string>
+
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="ok">ok</string>
+
+
     <string name="filters">Filters</string>
-    <string name="title_activity_basic">BasicActivity</string>
+    <string name="title_activity_basic" translatable="false">BasicActivity</string>
+
+    <string name="preference_file_key" translatable="false">fr.utt.if26.projet.SHARED_PREFERENCE</string>
+    <string name="box_filter_key" translatable="false">box_filter_key</string>
+    <string name="case_filter_key" translatable="false">case_filter_key</string>
+    <string name="treasure_filter_key" translatable="false">treasure_filter_key</string>
 </resources>

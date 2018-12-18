@@ -4,16 +4,16 @@
 
 
     <item
-        android:id="@+id/action_favorite"
+        android:id="@+id/action_filters"
         android:icon="@drawable/ic_action_filters"
         android:title="@string/filters"
         app:showAsAction="ifRoom"/>
 
 
-    <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
-        android:title="@string/see_list"
-        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_add_cache"
+        android:title="@string/add_cache"
+        app:showAsAction="ifRoom"/>
 
 
 </menu>

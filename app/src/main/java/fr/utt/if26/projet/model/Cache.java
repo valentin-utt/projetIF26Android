@@ -1,20 +1,50 @@
 package fr.utt.if26.projet.model;
 
-public class Cache {
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
+@Entity(tableName = "cache_table")
+public class Cache implements Serializable {
+
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    private float lat;
-    private float lon;
+
+    @ColumnInfo(name = "lat")
+    private double lat;
+
+    @ColumnInfo(name = "lon")
+    private double lon;
+
+    @ColumnInfo(name = "type")
     private int type;
+
+    @ColumnInfo(name = "difficulty")
     private int difficulty;
+
+
+    @ColumnInfo(name = "terrain")
     private int terrain;
+
+    @ColumnInfo(name = "size")
     private int size;
+
+    @ColumnInfo(name = "owner")
     private int owner;
+
+    @ColumnInfo(name = "hint")
+    @NonNull
     private String hint;
+
+    @ColumnInfo(name = "description")
+    @NonNull
     private String description;
 
-    public Cache(int id, float lat, float lon, int type, int difficulty, int terrain, int size, int owner, String hint, String description) {
-        this.id = id;
+    public Cache(double lat, double lon, int type, int difficulty, int terrain, int size, int owner, String hint, String description) {
         this.lat = lat;
         this.lon = lon;
         this.type = type;
@@ -34,7 +64,7 @@ public class Cache {
         this.id = id;
     }
 
-    public float getLat() {
+    public double getLat() {
         return lat;
     }
 
@@ -42,7 +72,7 @@ public class Cache {
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return lon;
     }
 
