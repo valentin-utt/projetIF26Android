@@ -24,7 +24,7 @@ public class CacheRepository {
 
 
     public CacheRepository(Application application) {
-        CacheRoomDatabase db = CacheRoomDatabase.getDatabase(application);
+        CacheRoomDatabase db = CacheRoomDatabase.getInstance(application);
         mCacheDao = db.cacheDao();
         mAllCache = mCacheDao.getAllCache();
     }

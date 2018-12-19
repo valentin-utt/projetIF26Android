@@ -59,7 +59,7 @@ public class ViewCacheActivity extends AppCompatActivity {
 
         new Thread(new Runnable() {
             public void run() {
-                final CacheDAO cacheDAO = CacheRoomDatabase.getDatabase(ViewCacheActivity.this).cacheDao();
+                final CacheDAO cacheDAO = CacheRoomDatabase.getInstance(ViewCacheActivity.this).cacheDao();
                 UserDAO userDAO = UserRoomDatabase.getDatabase(ViewCacheActivity.this).userDao();
 
                 cache = cacheDAO.findCacheById(cacheId);
