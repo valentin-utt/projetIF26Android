@@ -34,4 +34,9 @@
     <string name="hard">Difficile</string>
     <string name="filters">Filtres</string>
     <string name="ok">ok</string>
+    <string name="prompt_username">Nom d\'utilisateur</string>
+    <string name="register">S\'inscrire</string>
+    <string name="cancel">Annuler</string>
+    <string name="disconect">Déconnexion</string>
+    <string name="connect_to_add_cache">Connection requise pour ajouter une cache</string>
 </resources>

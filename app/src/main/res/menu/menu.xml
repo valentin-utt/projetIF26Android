@@ -10,10 +10,5 @@
         app:showAsAction="ifRoom"/>
 
 
-    <item
-        android:id="@+id/action_add_cache"
-        android:title="@string/add_cache"
-        app:showAsAction="ifRoom"/>
-
 
 </menu>

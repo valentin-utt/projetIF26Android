@@ -3,10 +3,17 @@ package fr.utt.if26.projet.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.*;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -22,6 +29,7 @@ import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -31,19 +39,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fr.utt.if26.projet.R;
+import fr.utt.if26.projet.model.Cache;
 import fr.utt.if26.projet.model.User;
+import fr.utt.if26.projet.view.CacheViewModel;
+import fr.utt.if26.projet.view.UserViewModel;
+import fragement.UsernameDialogFragment;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements UsernameDialogFragment.NoticeDialogListener, LoaderCallbacks<Cursor> {
 
+
+    private UserViewModel mUserViewModel;
+    private Boolean emailFlag;
+    private Boolean userFlag;
+    private List<String> credList = new ArrayList<String>();
 
     public static final String EXTRA_REPLY = "com.example.android.userlistsql.REPLY";
 
@@ -56,9 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private static String[] DUMMY_CREDENTIALS;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -67,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mUsernameView;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -82,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        mUsernameView = findViewById(R.id.username);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,6 +129,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        // set the credentials table
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mUserViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+
+                for (Iterator<User> iter = users.iterator(); iter.hasNext(); ){
+                    User parsedUser = iter.next();
+                    credList.add(parsedUser.getEmail() + ":" + parsedUser.getPassword());
+                }
+
+            }
+        });
+        DUMMY_CREDENTIALS = new String[credList.size()];
+        DUMMY_CREDENTIALS = credList.toArray(DUMMY_CREDENTIALS);
+
+
     }
 
     private void populateAutoComplete() {
@@ -197,15 +240,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            if (isEmailUsed(email)) {
+                showProgress(true);
+                mAuthTask = new UserLoginTask(email, password, null);
+                mAuthTask.execute((Void) null);
+            }
+            else{
+                DialogFragment newFragment = new UsernameDialogFragment();
+                newFragment.show(getSupportFragmentManager(), "username");
+            }
+
         }
     }
+
+
+
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
+    }
+
+    private boolean isEmailUsed(String email) {
+        final String checkedEmail = email;
+        emailFlag = false;
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mUserViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(@Nullable final List<User> users) {
+                for (Iterator<User> iter = users.iterator(); iter.hasNext(); ) {
+                    User parsedUser = iter.next();
+                    if (parsedUser.getEmail().equals(checkedEmail)){
+                         emailFlag = true;
+                    }
+                }
+            }
+        });
+
+        return emailFlag;
+
     }
 
     private boolean isPasswordValid(String password) {
@@ -292,6 +365,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        showProgress(true);
+        String userEmail = mEmailView.getText().toString();
+        String userPassword = mPasswordView.getText().toString();
+        EditText userNameEditText = findViewById(R.id.username);
+        String userName = userNameEditText.getText().toString();
+
+        showProgress(true);
+        mAuthTask = new UserLoginTask(userEmail, userPassword, userName);
+        mAuthTask.execute((Void) null);
+
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -311,10 +404,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mUserName;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String userName) {
             mEmail = email;
             mPassword = password;
+            mUserName = userName;
         }
 
         @Override
@@ -328,6 +423,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
+
+
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
@@ -336,29 +433,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
+
             // TODO: register the new account here.
-            Intent replyIntent = new Intent();
-            Bundle bundle = new Bundle();
 
-            if (TextUtils.isEmpty(mEmailView.getText())) {
-                setResult(RESULT_CANCELED, replyIntent);
-            } else {
-                String userEmail = mEmailView.getText().toString();
-                String userPassword = mPasswordView.getText().toString();
-                String userName = "Marc Lemercier";
-
-
-                User user = new User(userEmail,userPassword,userName);
-
-                bundle.putSerializable("USER_BUNDLE", user);
-                replyIntent.putExtra(EXTRA_REPLY, user);
-                setResult(RESULT_OK, replyIntent);
+            if(mUserName != null){
+                User user = new User(mEmail,mPassword,mUserName);
+                mUserViewModel.insert(user);
+                return true;
             }
 
-
-
-
-            return true;
+            return false;
         }
 
         @Override
@@ -367,6 +451,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Intent replyIntent = new Intent();
+                setResult(RESULT_OK, replyIntent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

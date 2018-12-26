@@ -16,7 +16,7 @@ public class UserRepository {
     private LiveData<List<User>> mAllUsers;
 
     public UserRepository(Application application) {
-        UserRoomDatabase db = UserRoomDatabase.getDatabase(application);
+        UserRoomDatabase db = UserRoomDatabase.getInstance(application);
         mUserDao = db.userDao();
         mAllUsers = mUserDao.getAllUsers();
 

@@ -41,8 +41,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import fr.utt.if26.projet.R;
 import fr.utt.if26.projet.model.Cache;
@@ -63,6 +65,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final int ADD_CACHE_ACTIVITY_REQUEST_CODE = 43;
 
     private CacheViewModel mCacheViewModel;
+    private UserViewModel mUserViewModel;
+
+    private Boolean isConnnected;
+
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
 
     @Override
@@ -72,10 +80,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
 
 
 
@@ -95,12 +110,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent i = new Intent(this, FilterActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.action_add_cache :
-                Toast.makeText(this, "cliquer sur votre position pour ajouter une cache", Toast.LENGTH_LONG).show();
-                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
 
 
@@ -123,7 +140,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
             Toast.makeText(this, "vous ne pouvez pas ajouter de caches sans avoir accès à votre localisation.", Toast.LENGTH_LONG).show();
+
+
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
@@ -133,9 +153,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             mMap.setMyLocationEnabled(true);
@@ -173,22 +190,40 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, AddCacheActivity.class);
-        intent.putExtra("lon",location.getLongitude());
-        intent.putExtra("lat",location.getLatitude());
-        startActivity(intent);
+        if(isConnnected) {
+            //Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, AddCacheActivity.class);
+            intent.putExtra("lon", location.getLongitude());
+            intent.putExtra("lat", location.getLatitude());
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this, R.string.connect_to_add_cache, Toast.LENGTH_LONG).show();
+        }
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(i);
+    }
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == LOCATION_REQUEST_CODE) {
-            if (permissions.length == 1 && permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            Log.d(TAG, "onRequestPermissionsResult: permission :" + Arrays.toString(permissions)  );
+            Log.d(TAG, "onRequestPermissionsResult: grant result " + Arrays.toString(grantResults) );
+
+            if (permissions.length == 1 && permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Toast.makeText(MapsActivity.this, "TRIGED", Toast.LENGTH_LONG).show();
                 mLocationPermissionGranted = true;
                 mMap.setMyLocationEnabled(true);
+                finish();
+                startActivity(getIntent());
             } else {
                 // Permission was denied. Display an error message.
             }
@@ -199,8 +234,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_CACHE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Toast.makeText(MapsActivity.this, "oui3", Toast.LENGTH_LONG).show();
-
             Cache cache = (Cache) data.getSerializableExtra(AddCacheActivity.EXTRA_ADD_CACHE);
             mCacheViewModel.insert(cache);
         } else {

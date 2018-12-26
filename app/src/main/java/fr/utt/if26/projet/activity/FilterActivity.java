@@ -106,7 +106,7 @@ public class FilterActivity extends AppCompatActivity {
 
     public boolean getBooleanFromPreferences(String key){
         SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        Boolean isChecked = sharedPreferences.getBoolean(key, false);
+        Boolean isChecked = sharedPreferences.getBoolean(key, true);
         return isChecked;
     }
 

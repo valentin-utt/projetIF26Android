@@ -17,79 +17,18 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android" />
 
-    <ScrollView
-        android:id="@+id/viewCacheScrollView"
+    <ListView
+        android:id="@+id/cacheListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".9">
+        android:layout_weight=".85" />
 
-        <LinearLayout
-            android:id="@+id/viewCacheScrollViewLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/ownerTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/owner" />
-
-            <TextView
-                android:id="@+id/difficultyTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/difficulty" />
-
-
-            <TextView
-                android:id="@+id/typeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/type" />
-
-
-            <TextView
-                android:id="@+id/terrainTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/terrain" />
-
-            <TextView
-                android:id="@+id/sizeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/size" />
-
-            <TextView
-                android:id="@+id/hintTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/hint" />
-
-            <TextView
-                android:id="@+id/descriptionTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/description" />
-
-
-        </LinearLayout>
-    </ScrollView>
 
     <Button
         android:id="@+id/cacheFoundButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".1"
+        android:layout_weight=".15"
         android:text="@string/cache_found" />
 
 

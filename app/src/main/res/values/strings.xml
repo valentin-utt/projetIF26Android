@@ -4,7 +4,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -14,9 +14,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="connect_to_add_cache">Connect to add cache</string>
+    <string name="login_status" translatable="false">login_status</string>
     <string name="title_activity_maps">Map</string>
+    <string name="cancel">Cancel</string>
+    <string name="disconect">Disconnect</string>
     <string name="map_button">map</string>
     <string name="login_button">Sign in or register</string>
+    <string name="register">register</string>
     <string name="add_cache">Add cache</string>
 
     <string name="terrain">Terrain</string>
@@ -49,4 +55,5 @@
     <string name="box_filter_key" translatable="false">box_filter_key</string>
     <string name="case_filter_key" translatable="false">case_filter_key</string>
     <string name="treasure_filter_key" translatable="false">treasure_filter_key</string>
+    <string name="prompt_username">Username</string>
 </resources>

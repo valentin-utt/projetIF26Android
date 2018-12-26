@@ -1,13 +1,19 @@
 package fr.utt.if26.projet.activity;
 
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.concurrent.Executors;
 
 import fr.utt.if26.projet.R;
 import fr.utt.if26.projet.view.UserViewModel;
@@ -18,9 +24,13 @@ public class MainActivity extends AppCompatActivity {
     private Button mapButton;
     private Button signInButton;
 
-    public static final int NEW_USER_ACTIVITY_REQUEST_CODE = 1;
+    public static final int LOGIN_ACTIVITY_REQUEST_CODE = 1;
 
     private UserViewModel mUserViewModel;
+    private Boolean isConnnected;
+
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +39,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
+
+
+
 
         //get UI elements
 
         mapButton = findViewById(R.id.mapButton);
         signInButton = findViewById(R.id.signInButton);
+
+        checkLoginState();
 
         //set onClickEvents
 
@@ -48,8 +65,13 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), LoginActivity.class);
-                startActivityForResult(i, NEW_USER_ACTIVITY_REQUEST_CODE);
+                if (isConnnected){
+                    setStatusLogedOff();
+                }
+                else{
+                    Intent i = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivityForResult(i, LOGIN_ACTIVITY_REQUEST_CODE);
+                }
             }
         });
 
@@ -59,15 +81,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LOGIN_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            setStatusLogedIn();
+        }
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);;
+    }
 
-        if (requestCode == NEW_USER_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            User user = (User) data.getSerializableExtra(LoginActivity.EXTRA_REPLY);
-            mUserViewModel.insert(user);
-        } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    "error",
-                    Toast.LENGTH_LONG).show();
+    public void setStatusLogedIn(){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.login_status), true);
+        editor.commit();
+        signInButton.setText(R.string.disconect);
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), true);;
+    }
+
+    public void setStatusLogedOff(){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.login_status), false);
+        editor.commit();
+        signInButton.setText(R.string.login_button);
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);;
+    }
+
+    public void checkLoginState(){
+        if (isConnnected){
+            signInButton.setText(R.string.disconect);
+        }
+        else{
+            signInButton.setText(R.string.login_button);
         }
     }
 }

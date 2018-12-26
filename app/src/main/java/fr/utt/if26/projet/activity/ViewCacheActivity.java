@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import fr.utt.if26.projet.R;
 import fr.utt.if26.projet.RoomDb.CacheRoomDatabase;
@@ -18,6 +22,7 @@ import fr.utt.if26.projet.dao.CacheDAO;
 import fr.utt.if26.projet.dao.UserDAO;
 import fr.utt.if26.projet.model.Cache;
 import fr.utt.if26.projet.model.User;
+import fr.utt.if26.projet.view.CacheAdapter;
 import fr.utt.if26.projet.view.CacheViewModel;
 
 public class ViewCacheActivity extends AppCompatActivity {
@@ -36,6 +41,7 @@ public class ViewCacheActivity extends AppCompatActivity {
 
     private Button cacheFoundButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,8 @@ public class ViewCacheActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle("View cache");
         setSupportActionBar(myToolbar);
+
+
 
         ownerTextView = findViewById(R.id.ownerTextView);
         typeTextView = findViewById(R.id.typeTextView);
@@ -60,19 +68,15 @@ public class ViewCacheActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 final CacheDAO cacheDAO = CacheRoomDatabase.getInstance(ViewCacheActivity.this).cacheDao();
-                UserDAO userDAO = UserRoomDatabase.getDatabase(ViewCacheActivity.this).userDao();
-
+                UserDAO userDAO = UserRoomDatabase.getInstance(ViewCacheActivity.this).userDao();
                 cache = cacheDAO.findCacheById(cacheId);
                 user = userDAO.findUserById(cache.getOwner());
-
-               // ownerTextView.append(" : " + user.getUserName());
-                typeTextView.append(" : " + cache.getType() );
-                difficultyTextView.append(" : " + cache.getDifficulty() );
-                terrainTextView.append(" : " + cache.getTerrain() );
-                sizeTextView.append(" : " + cache.getSize() );
-                hintTextView.append(" : " + cache.getHint() );
-                descriptionTextView.append(" : " + cache.getDescription() );
-
+                ArrayList<Cache> cacheArrayList = new ArrayList<Cache>();
+                cacheArrayList.add(cache);
+                String userName = user.getUserName();
+                CacheAdapter adapter = new CacheAdapter(cacheArrayList,getApplicationContext(), userName);
+                ListView listView = (ListView) findViewById(R.id.cacheListView);
+                listView.setAdapter(adapter);
                 cacheFoundButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -88,7 +92,6 @@ public class ViewCacheActivity extends AppCompatActivity {
 
             }
         }).start();
-
 
 
     }
