@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -48,10 +50,8 @@ public class ViewCacheActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_cache);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setTitle("View cache");
+        myToolbar.setTitle(getString(R.string.view_cache));
         setSupportActionBar(myToolbar);
-
-
 
         ownerTextView = findViewById(R.id.ownerTextView);
         typeTextView = findViewById(R.id.typeTextView);
@@ -69,10 +69,18 @@ public class ViewCacheActivity extends AppCompatActivity {
             public void run() {
                 final CacheDAO cacheDAO = CacheRoomDatabase.getInstance(ViewCacheActivity.this).cacheDao();
                 UserDAO userDAO = UserRoomDatabase.getInstance(ViewCacheActivity.this).userDao();
+
                 cache = cacheDAO.findCacheById(cacheId);
+
                 user = userDAO.findUserById(cache.getOwner());
+
+                Log.d("VC", "run: " + cache.toString());
+
+                Log.d("VC", "run: " + user.toString());
+
                 ArrayList<Cache> cacheArrayList = new ArrayList<Cache>();
                 cacheArrayList.add(cache);
+
                 String userName = user.getUserName();
                 CacheAdapter adapter = new CacheAdapter(cacheArrayList,getApplicationContext(), userName);
                 ListView listView = (ListView) findViewById(R.id.cacheListView);
@@ -85,8 +93,12 @@ public class ViewCacheActivity extends AppCompatActivity {
                                 cacheDAO.deleteCacheById(cacheId);
                                 Intent i = new Intent(getBaseContext(), MapsActivity.class);
                                 startActivity(i);
+
                             }
                         }).start();
+
+
+
                     }
                 });
 

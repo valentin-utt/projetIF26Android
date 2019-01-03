@@ -7,8 +7,10 @@ import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +30,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +48,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -68,6 +72,9 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
     private Boolean userFlag;
     private List<String> credList = new ArrayList<String>();
 
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
+
     public static final String EXTRA_REPLY = "com.example.android.userlistsql.REPLY";
 
     /**
@@ -80,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
      * TODO: remove after connecting to a real authentication system.
      */
     private static String[] DUMMY_CREDENTIALS;
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -99,6 +107,8 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
 
         // Set up the login form.
@@ -137,16 +147,18 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
             @Override
             public void onChanged(@Nullable final List<User> users) {
 
+
                 for (Iterator<User> iter = users.iterator(); iter.hasNext(); ){
                     User parsedUser = iter.next();
-                    credList.add(parsedUser.getEmail() + ":" + parsedUser.getPassword());
+
+                    credList.add(parsedUser.getEmail() + ":" + parsedUser.getPassword() + ":" + parsedUser.getId());
+
                 }
+                DUMMY_CREDENTIALS = new String[credList.size()];
+                DUMMY_CREDENTIALS = credList.toArray(DUMMY_CREDENTIALS);
 
             }
         });
-        DUMMY_CREDENTIALS = new String[credList.size()];
-        DUMMY_CREDENTIALS = credList.toArray(DUMMY_CREDENTIALS);
-
 
     }
 
@@ -221,6 +233,11 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
             focusView = mPasswordView;
             cancel = true;
         }
+        else if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -262,23 +279,13 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
     }
 
     private boolean isEmailUsed(String email) {
-        final String checkedEmail = email;
-        emailFlag = false;
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        mUserViewModel.getAllUsers().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable final List<User> users) {
-                for (Iterator<User> iter = users.iterator(); iter.hasNext(); ) {
-                    User parsedUser = iter.next();
-                    if (parsedUser.getEmail().equals(checkedEmail)){
-                         emailFlag = true;
-                    }
-                }
+        for (String credential : DUMMY_CREDENTIALS) {
+            String[] pieces = credential.split(":");
+            if (pieces[0].equals(email)) {
+                return true;
             }
-        });
-
-        return emailFlag;
-
+        }
+        return false;
     }
 
     private boolean isPasswordValid(String password) {
@@ -370,8 +377,10 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
         showProgress(true);
         String userEmail = mEmailView.getText().toString();
         String userPassword = mPasswordView.getText().toString();
-        EditText userNameEditText = findViewById(R.id.username);
+        EditText userNameEditText = dialog.getDialog().findViewById(R.id.username);
         String userName = userNameEditText.getText().toString();
+
+        Log.d("TAG", "onDialogPositiveClick: " + userName);
 
         showProgress(true);
         mAuthTask = new UserLoginTask(userEmail, userPassword, userName);
@@ -424,11 +433,15 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
             }
 
 
-
+            Log.d("LOGIN", "doInBackground: " + Arrays.toString(DUMMY_CREDENTIALS));
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putInt(getString(R.string.loged_id), Integer.valueOf(pieces[2]) );
+                    editor.commit();
+
                     return pieces[1].equals(mPassword);
                 }
             }
@@ -438,7 +451,18 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
 
             if(mUserName != null){
                 User user = new User(mEmail,mPassword,mUserName);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putInt(getString(R.string.loged_id), mUserViewModel.findMaxIdUser().getId()+1);
+                editor.commit();
+
+
+
                 mUserViewModel.insert(user);
+
+
+
+
+
                 return true;
             }
 

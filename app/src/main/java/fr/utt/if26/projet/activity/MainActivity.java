@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private UserViewModel mUserViewModel;
     private Boolean isConnnected;
+    private int connectedId;
 
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == LOGIN_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             setStatusLogedIn();
         }
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);;
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
+
     }
 
     public void setStatusLogedIn(){
@@ -92,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.login_status), true);
         editor.commit();
         signInButton.setText(R.string.disconect);
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), true);;
+        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), true);
+        connectedId = sharedPref.getInt(getString(R.string.loged_id), 0);
     }
 
     public void setStatusLogedOff(){

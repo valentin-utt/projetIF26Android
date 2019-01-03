@@ -33,15 +33,16 @@
 
             <RadioGroup
                 android:id="@+id/difficultyRadioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="@string/difficulty" />
 
                 <RadioButton
@@ -69,13 +70,14 @@
 
             <RadioGroup
                 android:id="@+id/typeRadioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:text="@string/type" />
 
@@ -104,13 +106,14 @@
 
             <RadioGroup
                 android:id="@+id/terrainRadioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:text="@string/terrain" />
 
@@ -144,7 +147,7 @@
 
                 <EditText
                     android:id="@+id/sizeEditText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/size"
@@ -159,7 +162,7 @@
 
                 <EditText
                     android:id="@+id/hintEditText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/hint"
@@ -174,7 +177,7 @@
 
                 <EditText
                     android:id="@+id/descriptionEditText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/description"

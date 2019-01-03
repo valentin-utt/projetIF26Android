@@ -43,8 +43,8 @@ public abstract class UserRoomDatabase extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                                User user1 = new User("foo@bar.fr", "XXXX", "Jaques");
-                                User user2 = new User("foo@bar.fr", "YYYY", "Oui");
+                                User user1 = new User("foo@bar.fr", "XXXXX", "Jaques1");
+                                User user2 = new User("foo2@bar.fr", "YYYYY", "Jaques2");
                                 getInstance(context).userDao().insert(user1);
                                 getInstance(context).userDao().insert(user2);
 

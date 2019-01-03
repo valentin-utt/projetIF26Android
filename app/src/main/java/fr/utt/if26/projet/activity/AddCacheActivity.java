@@ -1,10 +1,13 @@
 package fr.utt.if26.projet.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +23,8 @@ public class AddCacheActivity extends AppCompatActivity {
     public static final String EXTRA_ADD_CACHE = "com.example.android.cacheaddsql.ADD_CACHE";
 
     private CacheViewModel mCacheViewModel;
+
+    private SharedPreferences sharedPref;
 
     private RadioGroup difficultyRadioGroup;
     private RadioGroup typeRadioGroup;
@@ -61,6 +66,8 @@ public class AddCacheActivity extends AppCompatActivity {
         hintEditText = findViewById(R.id.hintEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         addCacheButton = findViewById(R.id.addCacheButton);
+
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         //set onClickEvents
 
@@ -106,7 +113,10 @@ public class AddCacheActivity extends AppCompatActivity {
                 size = Integer.valueOf(sizeEditText.getText().toString());
                 hint = hintEditText.getText().toString();
                 description = descriptionEditText.getText().toString();
-                owner = 0;
+
+                owner = sharedPref.getInt(getString(R.string.loged_id), -1);
+
+                Log.d("VC", "onClick: " + owner);
 
                 Cache cache = new Cache(lat,lon, type, difficulty, terrain, size, owner, hint, description);
 

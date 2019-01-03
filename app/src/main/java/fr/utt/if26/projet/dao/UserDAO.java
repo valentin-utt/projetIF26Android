@@ -13,7 +13,7 @@ import fr.utt.if26.projet.model.User;
 public interface  UserDAO {
 
     @Insert
-    void insert(User user);
+    long insert(User user);
 
     @Query("DELETE FROM user_table")
     void deleteAll();
@@ -23,4 +23,7 @@ public interface  UserDAO {
 
     @Query("SELECT * from user_table WHERE id=:myId")
     User findUserById(int myId);
+
+    @Query("SELECT * from user_table ORDER BY id DESC LIMIT 1")
+    User findMaxIdUser();
 }

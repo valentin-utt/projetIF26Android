@@ -23,7 +23,12 @@ public class UserRepository {
     }
 
     public LiveData<List<User>> getAllUsers() {
-        return mAllUsers;
+        return mUserDao.getAllUsers();
+    }
+
+
+    public User findMaxId() {
+       return mUserDao.findMaxIdUser();
     }
 
 

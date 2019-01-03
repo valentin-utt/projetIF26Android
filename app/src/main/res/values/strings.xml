@@ -21,6 +21,7 @@
     <string name="cancel">Cancel</string>
     <string name="disconect">Disconnect</string>
     <string name="map_button">map</string>
+    <string name="loged_id" translatable="false">loged_id</string>
     <string name="login_button">Sign in or register</string>
     <string name="register">register</string>
     <string name="add_cache">Add cache</string>
@@ -56,4 +57,5 @@
     <string name="case_filter_key" translatable="false">case_filter_key</string>
     <string name="treasure_filter_key" translatable="false">treasure_filter_key</string>
     <string name="prompt_username">Username</string>
+    <string name="view_cache">Cache\'s Profile</string>
 </resources>

@@ -3,7 +3,7 @@
     <string name="app_name">Chasse au trésor</string>
     <string name="title_activity_login">Se connecter</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Mot de passe (optionel)</string>
+    <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Se connecter ou s\'inscrire</string>
     <string name="action_sign_in_short">Se connecter</string>
     <string name="error_invalid_email">Cet email est invalide</string>
@@ -25,7 +25,7 @@
     <string name="type_box">Boite</string>
     <string name="type_case">Valise</string>
     <string name="type_treasure">Trésor</string>
-    <string name="cache_found">"Cache Trouvé ! "</string>
+    <string name="cache_found">"Cache Trouvée ! "</string>
     <string name="owner">Propriétaire</string>
     <string name="hint">Indice</string>
     <string name="description">Description</string>
@@ -39,4 +39,5 @@
     <string name="cancel">Annuler</string>
     <string name="disconect">Déconnexion</string>
     <string name="connect_to_add_cache">Connection requise pour ajouter une cache</string>
+    <string name="view_cache">Profil de la Cache</string>
 </resources>

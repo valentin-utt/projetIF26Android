@@ -22,7 +22,9 @@ public class UserViewModel extends AndroidViewModel {
             mAllUsers = mRepository.getAllUsers();
         }
 
-        public LiveData<List<User>> getAllUsers() { return mAllUsers; }
+        public LiveData<List<User>> getAllUsers() { return mRepository.getAllUsers(); }
 
         public void insert(User user) { mRepository.insert(user); }
+
+        public User findMaxIdUser() {return  mRepository.findMaxId(); }
 }
