@@ -21,7 +21,7 @@ public class Cache implements Serializable {
     private double lon;
 
     @ColumnInfo(name = "type")
-    private int type;
+    private int  type;
 
     @ColumnInfo(name = "difficulty")
     private int difficulty;
