@@ -90,10 +90,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-
-
-
-
     }
 
 
@@ -134,10 +130,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
-                this, R.raw.style_json));
-
-
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 

@@ -47,6 +47,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -71,11 +73,43 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
     private Boolean emailFlag;
     private Boolean userFlag;
     private List<String> credList = new ArrayList<String>();
+    MessageDigest digest=null;
+    String hash;
 
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
     public static final String EXTRA_REPLY = "com.example.android.userlistsql.REPLY";
+
+    // utility function
+    private static String bytesToHexString(byte[] bytes) {
+        // http://stackoverflow.com/questions/332079
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]).toUpperCase();
+            if (hex.length() == 1) {
+                sb.append('0');
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
+    }
+
+    private String toSHA256(String password ){
+        MessageDigest digest=null;
+        String hash;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            digest.update(password.getBytes());
+            hash = bytesToHexString(digest.digest());
+            Log.i("Eamorr", "result is " + hash);
+            return hash;
+        } catch (NoSuchAlgorithmException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return "rien";
+        }
+    }
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -259,7 +293,7 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
             // perform the user login attempt.
             if (isEmailUsed(email)) {
                 showProgress(true);
-                mAuthTask = new UserLoginTask(email, password, null);
+                mAuthTask = new UserLoginTask(email, toSHA256(password), null);
                 mAuthTask.execute((Void) null);
             }
             else{
@@ -383,7 +417,7 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
         Log.d("TAG", "onDialogPositiveClick: " + userName);
 
         showProgress(true);
-        mAuthTask = new UserLoginTask(userEmail, userPassword, userName);
+        mAuthTask = new UserLoginTask(userEmail, toSHA256(userPassword), userName);
         mAuthTask.execute((Void) null);
 
 
