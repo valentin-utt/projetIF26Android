@@ -1,5 +1,6 @@
 package fr.utt.if26.projet.activity;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -9,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int LOGIN_ACTIVITY_REQUEST_CODE = 1;
 
     private UserViewModel mUserViewModel;
-    private Boolean isConnnected;
+    private Boolean AppFirstRun;
     private int connectedId;
 
     private SharedPreferences sharedPref;
@@ -41,15 +45,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
+
+        AppFirstRun = sharedPref.getBoolean(getString(R.string.app_first_run), true);
 
 
+
+        Log.d("MAIN", "onCreate: login_status " + Boolean.toString(sharedPref.getBoolean(getString(R.string.login_status), false)) );
 
 
         //get UI elements
 
         mapButton = findViewById(R.id.mapButton);
         signInButton = findViewById(R.id.signInButton);
+
+        if (AppFirstRun){
+            setStatusLogedOff();
+            setAppFirstRun(false);
+            Intent i = new Intent(getBaseContext(), LegalActivity.class);
+            startActivity(i);
+        }
 
         checkLoginState();
 
@@ -66,26 +80,53 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnnected){
+                if (sharedPref.getBoolean(getString(R.string.login_status), false)){
                     setStatusLogedOff();
                 }
                 else{
-                    Intent i = new Intent(getBaseContext(), LoginActivity.class);
-                    startActivityForResult(i, LOGIN_ACTIVITY_REQUEST_CODE);
+                    if(sharedPref.getBoolean(getString(R.string.RGPD_acceptKey),false))
+                    {
+                        Intent i = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivityForResult(i, LOGIN_ACTIVITY_REQUEST_CODE);
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, getString(R.string.RGPD_must_confirm), Toast.LENGTH_LONG ).show();
+                    }
                 }
             }
         });
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu2, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.show_legal :
+                Intent i = new Intent(this, LegalActivity.class);
+                startActivity(i);
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             setStatusLogedIn();
+            Log.d("MAIN", "onActivityResult: LOGED_IN");
+            //isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
         }
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);
+
 
     }
 
@@ -94,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.login_status), true);
         editor.commit();
         signInButton.setText(R.string.disconect);
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), true);
         connectedId = sharedPref.getInt(getString(R.string.loged_id), 0);
+        Log.d("MAIN", "SetStatus: LOGED_IN");
     }
 
     public void setStatusLogedOff(){
@@ -103,15 +144,28 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.login_status), false);
         editor.commit();
         signInButton.setText(R.string.login_button);
-        isConnnected = sharedPref.getBoolean(getString(R.string.login_status), false);;
+        Log.d("MAIN", "SetStatus: LOGED_OFF");
+    }
+
+    public void setAppFirstRun(boolean boolvalue){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.app_first_run), boolvalue);
+        editor.commit();
+        AppFirstRun = sharedPref.getBoolean(getString(R.string.login_status), boolvalue);
+    }
+
+    public void onBackPressed() {
+        finishAndRemoveTask();
     }
 
     public void checkLoginState(){
-        if (isConnnected){
+        if (sharedPref.getBoolean(getString(R.string.login_status), false)==true){
             signInButton.setText(R.string.disconect);
+            Log.d("MAIN", "checkLoginState: Disconnect");
         }
         else{
             signInButton.setText(R.string.login_button);
+            Log.d("MAIN", "checkLoginState: Register");
         }
     }
 }

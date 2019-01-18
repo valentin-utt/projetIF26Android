@@ -25,7 +25,10 @@
     <string name="login_button">Sign in or register</string>
     <string name="register">register</string>
     <string name="add_cache">Add cache</string>
-
+    <string name="legal">Legal mentions</string>
+    <string name="app_first_run" translatable="false">app_first_run</string>
+    <string name="RGPD"> Personal data collected by this application are mendatory if you create an acount under responsibility Treasure Hunt inc. there are not supposed to be used for commercial purpose.
+according to the law, especially EU rule 2016/679, General Data Protection Regulation (GDPR). People whose personal data are collected can acess, rectify, suppress, for letitimate purpose by addressing their querry by email to legal@treasurehunt.com</string>
     <string name="terrain">Terrain</string>
     <string name="terrain_concrete">Concrete</string>
     <string name="terrain_dirt">Dirt</string>
@@ -58,4 +61,7 @@
     <string name="treasure_filter_key" translatable="false">treasure_filter_key</string>
     <string name="prompt_username">Username</string>
     <string name="view_cache">Cache\'s Profile</string>
+    <string name="accept">Accept</string>
+    <string name="RGPD_acceptKey" translatable="false">false</string>
+    <string name="RGPD_must_confirm">Accept User Consent to Connect or sign Up</string>
 </resources>

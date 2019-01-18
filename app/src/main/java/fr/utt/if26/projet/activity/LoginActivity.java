@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
         } catch (NoSuchAlgorithmException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-            return "rien";
+            return null;
         }
     }
 

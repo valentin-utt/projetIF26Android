@@ -25,7 +25,7 @@
     <string name="type_box">Boite</string>
     <string name="type_case">Valise</string>
     <string name="type_treasure">Trésor</string>
-    <string name="cache_found">"Cache Trouvée ! "</string>
+    <string name="cache_found">Cache Trouvée ! </string>
     <string name="owner">Propriétaire</string>
     <string name="hint">Indice</string>
     <string name="description">Description</string>
@@ -40,4 +40,8 @@
     <string name="disconect">Déconnexion</string>
     <string name="connect_to_add_cache">Connection requise pour ajouter une cache</string>
     <string name="view_cache">Profil de la Cache</string>
+    <string name="legal" translatable="false">Consentement </string>
+    <string name="accept">Accepter</string>
+    <string name="RGPD">En cochant la case suivante, vous consenter que des informations à caractère personnel et des de géolocalisation peuvent être recueillies dans le cadre de la présente application, sous la responsabilité de Chasse au trésor SAS. Elles ne sont pas destinées à être utilisées à des fins commerciales. Conformément à la réglementation applicable, notamment le Règlement européen 2016/679, dit règlement général sur la protection des données (RGPD) et les dispositions nationales relatives à l\'informatique, aux fichiers et libertés, les personnes dont les données à caractère personnel sont collectées bénéficient d\'un droit d\'accès, de rectification, de suppression et d\'opposition, pour motifs légitimes, aux informations les concernant. Ces droits peuvent être exercés par l’envoi d’un email, à juridique@chasse au trésor.fr. Enfin, les personnes disposent du droit d’introduire une réclamation auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL).</string>
+    <string name="RGPD_must_confirm">Veuillez accepters le consentement sur l\'utilisation des données pour vous connecter.</string>
 </resources>
