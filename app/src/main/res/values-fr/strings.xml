@@ -13,6 +13,8 @@
     <string name="permission_rationale">L\'acces au contacts est requi pour l\'auto-completion du champ email.</string>
     <string name="title_activity_maps">Carte</string>
     <string name="map_button">Carte</string>
+    <string name="play_button">Jouer !</string>
+    <string name="quit_button">Quitter</string>
     <string name="login_button">Se connecter ou s\'inscrire</string>
     <string name="add_cache">Ajouter une cache</string>
     <string name="terrain">Terrain</string>
@@ -42,6 +44,6 @@
     <string name="view_cache">Profil de la Cache</string>
     <string name="legal" translatable="false">Consentement </string>
     <string name="accept">Accepter</string>
-    <string name="RGPD">En cochant la case suivante, vous consenter que des informations à caractère personnel et des de géolocalisation peuvent être recueillies dans le cadre de la présente application, sous la responsabilité de Chasse au trésor SAS. Elles ne sont pas destinées à être utilisées à des fins commerciales. Conformément à la réglementation applicable, notamment le Règlement européen 2016/679, dit règlement général sur la protection des données (RGPD) et les dispositions nationales relatives à l\'informatique, aux fichiers et libertés, les personnes dont les données à caractère personnel sont collectées bénéficient d\'un droit d\'accès, de rectification, de suppression et d\'opposition, pour motifs légitimes, aux informations les concernant. Ces droits peuvent être exercés par l’envoi d’un email, à juridique@chasse au trésor.fr. Enfin, les personnes disposent du droit d’introduire une réclamation auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL).</string>
-    <string name="RGPD_must_confirm">Veuillez accepters le consentement sur l\'utilisation des données pour vous connecter.</string>
+    <string name="RGPD"> En cochant la case suivante, vous consentez que des informations à caractère personnel et de géolocalisation peuvent être recueillies dans le cadre de la présente application, sous la responsabilité de Chasse au trésor SAS. Elles ne sont pas destinées à être utilisées à des fins commerciales. Conformément à la réglementation applicable, notamment le Règlement européen 2016/679, dit règlement général sur la protection des données (RGPD) et les dispositions nationales relatives à l\'informatique, aux fichiers et libertés, les personnes dont les données à caractère personnel sont collectées bénéficient d\'un droit d\'accès, de rectification, de suppression et d\'opposition, pour motifs légitimes, aux informations les concernant. Ces droits peuvent être exercés par l’envoi d’un email, à juridique@chasse_au_trésor.fr. Enfin, les personnes disposent du droit d’introduire une réclamation auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL).</string>
+    <string name="RGPD_must_confirm">Veuillez accepter le consentement sur l\'utilisation des données pour vous connecter.</string>
 </resources>

@@ -21,6 +21,8 @@
     <string name="cancel">Cancel</string>
     <string name="disconect">Disconnect</string>
     <string name="map_button">map</string>
+    <string name="play_button">play</string>
+    <string name="quit_button">Quit</string>
     <string name="loged_id" translatable="false">loged_id</string>
     <string name="login_button">Sign in or register</string>
     <string name="register">register</string>

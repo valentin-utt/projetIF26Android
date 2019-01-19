@@ -11,13 +11,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import fr.utt.if26.projet.R;
+
+import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
 public class LegalActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+
+    private TextView mLegalTV;
 
     private Button mOKButton;
 
@@ -35,6 +40,9 @@ public class LegalActivity extends AppCompatActivity {
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         mRGPDCheckBox = findViewById(R.id.RGPDcheckBox);
         mOKButton = findViewById(R.id.buttonOK);
+        mLegalTV = findViewById(R.id.textViewRGPD);
+        //mLegalTV.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+
 
         boolean isBoxChecked = getBooleanFromPreferences(getString(R.string.RGPD_acceptKey) );
         mRGPDCheckBox.setChecked(isBoxChecked);

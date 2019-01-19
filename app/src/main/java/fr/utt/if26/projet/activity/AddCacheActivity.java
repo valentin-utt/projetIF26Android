@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 
 import fr.utt.if26.projet.R;
 import fr.utt.if26.projet.model.Cache;
@@ -62,10 +63,32 @@ public class AddCacheActivity extends AppCompatActivity {
         difficultyRadioGroup = findViewById(R.id.difficultyRadioGroup);
         typeRadioGroup = findViewById(R.id.typeRadioGroup);
         terrainRadioGroup = findViewById(R.id.terrainRadioGroup);
-        sizeEditText = findViewById(R.id.sizeEditText);
+        //sizeEditText = findViewById(R.id.sizeEditText);
         hintEditText = findViewById(R.id.hintEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         addCacheButton = findViewById(R.id.addCacheButton);
+        size=0;
+
+        SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                size = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
 
         sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -110,7 +133,7 @@ public class AddCacheActivity extends AppCompatActivity {
                         break;
                 }
 
-                size = Integer.valueOf(sizeEditText.getText().toString());
+                //size = Integer.valueOf(sizeEditText.getText().toString());
                 hint = hintEditText.getText().toString();
                 description = descriptionEditText.getText().toString();
 
@@ -134,4 +157,6 @@ public class AddCacheActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

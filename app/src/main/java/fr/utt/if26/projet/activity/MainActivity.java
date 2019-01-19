@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mapButton;
     private Button signInButton;
+    private Button quitButton;
+    private Menu mainMenu;
 
     public static final int LOGIN_ACTIVITY_REQUEST_CODE = 1;
 
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         mapButton = findViewById(R.id.mapButton);
         signInButton = findViewById(R.id.signInButton);
+        quitButton = findViewById(R.id.quitAppButton);
+
 
         if (AppFirstRun){
             setStatusLogedOff();
@@ -81,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (sharedPref.getBoolean(getString(R.string.login_status), false)){
+                    closeOptionsMenu();
                     setStatusLogedOff();
+                    finish();
+                    startActivity(getIntent());
                 }
                 else{
                     if(sharedPref.getBoolean(getString(R.string.RGPD_acceptKey),false))
@@ -96,6 +103,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishAndRemoveTask();
+            }
+        });
+
         // Get a new or existing ViewModel from the ViewModelProvider.
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
@@ -104,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        mainMenu = menu;
         inflater.inflate(R.menu.menu2, menu);
         return true;
     }
@@ -113,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.show_legal :
                 Intent i = new Intent(this, LegalActivity.class);
                 startActivity(i);
+                return true;
+            case R.id.sign_in_or_register :
+                signInButton.performClick();
                 return true;
 
         }
@@ -144,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.login_status), false);
         editor.commit();
         signInButton.setText(R.string.login_button);
+        mainMenu.findItem(R.id.sign_in_or_register).setTitle(R.string.login_button);
         Log.d("MAIN", "SetStatus: LOGED_OFF");
     }
 
@@ -158,13 +177,26 @@ public class MainActivity extends AppCompatActivity {
         finishAndRemoveTask();
     }
 
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        mainMenu = menu;
+        if (sharedPref.getBoolean(getString(R.string.login_status), false)) {
+            mainMenu.findItem(R.id.sign_in_or_register).setTitle(R.string.disconect);
+        }
+        else {
+            mainMenu.findItem(R.id.sign_in_or_register).setTitle(R.string.login_button);
+        }
+        return true;
+    }
+
     public void checkLoginState(){
-        if (sharedPref.getBoolean(getString(R.string.login_status), false)==true){
+        if (sharedPref.getBoolean(getString(R.string.login_status), false)){
             signInButton.setText(R.string.disconect);
             Log.d("MAIN", "checkLoginState: Disconnect");
         }
         else{
             signInButton.setText(R.string.login_button);
+
             Log.d("MAIN", "checkLoginState: Register");
         }
     }
