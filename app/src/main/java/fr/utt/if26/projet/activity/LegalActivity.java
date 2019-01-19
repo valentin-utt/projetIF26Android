@@ -58,6 +58,7 @@ public class LegalActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), MainActivity.class);
+                finish();
                 startActivity(i);
             }
         });
@@ -76,6 +77,14 @@ public class LegalActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         Boolean isChecked = sharedPreferences.getBoolean(key, false);
         return isChecked;
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(i);
     }
 
 

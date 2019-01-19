@@ -190,6 +190,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent intent = new Intent(this, AddCacheActivity.class);
             intent.putExtra("lon", location.getLongitude());
             intent.putExtra("lat", location.getLatitude());
+            finish();
             startActivity(intent);
         }
         else{
@@ -202,6 +203,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onBackPressed() {
         super.onBackPressed();
         Intent i = new Intent(getBaseContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
         startActivity(i);
     }
 
@@ -246,6 +249,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         int cacheId = (int) marker.getTag();
         Intent i = new Intent(getBaseContext(), ViewCacheActivity.class);
         i.putExtra("CacheId", cacheId);
+        finish();
         startActivity(i);
         return false;
     }

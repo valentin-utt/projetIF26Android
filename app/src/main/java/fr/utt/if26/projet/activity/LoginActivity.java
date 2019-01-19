@@ -523,6 +523,16 @@ public class LoginActivity extends AppCompatActivity implements UsernameDialogFr
             mAuthTask = null;
             showProgress(false);
         }
+
+
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(i);
     }
 }
 

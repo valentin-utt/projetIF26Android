@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             setStatusLogedOff();
             setAppFirstRun(false);
             Intent i = new Intent(getBaseContext(), LegalActivity.class);
+            finish();
             startActivity(i);
         }
 
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), MapsActivity.class);
+                finish();
                 startActivity(i);
             }
         });
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     if(sharedPref.getBoolean(getString(R.string.RGPD_acceptKey),false))
                     {
                         Intent i = new Intent(getBaseContext(), LoginActivity.class);
+
                         startActivityForResult(i, LOGIN_ACTIVITY_REQUEST_CODE);
                     }
                     else{
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.show_legal :
                 Intent i = new Intent(this, LegalActivity.class);
+                finish();
                 startActivity(i);
                 return true;
             case R.id.sign_in_or_register :
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.login_status), false);
         editor.commit();
         signInButton.setText(R.string.login_button);
-        mainMenu.findItem(R.id.sign_in_or_register).setTitle(R.string.login_button);
+       // mainMenu.findItem(R.id.sign_in_or_register).setTitle(R.string.login_button);
         Log.d("MAIN", "SetStatus: LOGED_OFF");
     }
 
@@ -175,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         finishAndRemoveTask();
+        System.exit(0);
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {

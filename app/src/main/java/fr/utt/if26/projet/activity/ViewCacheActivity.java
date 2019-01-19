@@ -107,4 +107,13 @@ public class ViewCacheActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getBaseContext(), MapsActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+        startActivity(i);
+    }
 }
